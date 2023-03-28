@@ -10,12 +10,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-@Entity // This tells Hibernate to make a table out of this class
-@Table(name="usr")
+@Entity
+@Table(name = "usr")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", updatable = false, nullable = false, unique=true)
+    @Column(name = "id", updatable = false, nullable = false, unique = true)
     private Integer id;
     @Column(name = "username")
     private String username;
