@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MAIN PAGE</title>
+    <style>
+        body {
+            background-color: #b0c3c3;
+            /*#c0f4d3;*/
+            /*font-family: Arial, sans-serif;*/
+            font-size: 16px;
+            color: #333;
+        }
+
+        h1 {
+            color: #3e6a5c;
+            font-size: 36px;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .main-info-form,
+        .tag-info-form {
+
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+            background-color: #fff;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #1c6038;
+            font-size: 20px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            color: #14462a;
+            background-color: #d8e7cc;
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #3e6a5c;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            display: block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3e6a5c;
+            color: #E8F0F3;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            display: block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3e6a5c;
+            color: #E8F0F3;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        button:hover {
+            background-color: #3e6a5c;
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 3px #3cb371;
+        }
+
+        /*.user-list h2 {*/
+        /*    color: green;*/
+        /*    font-size: 28px;*/
+        /*    margin-bottom: 20px;*/
+        /*}*/
+
+        /*.user-list label {*/
+        /*    display: block;*/
+        /*    margin-bottom: 10px;*/
+        /*    color: #333;*/
+        /*    font-size: 18px;*/
+        /*}*/
+
+        /*.user-list input[type="text"] {*/
+        /*    display: block;*/
+        /*    width: 100%;*/
+        /*    padding: 10px;*/
+        /*    border: 1px solid #ccc;*/
+        /*    border-radius: 5px;*/
+        /*    font-size: 16px;*/
+        /*    margin-bottom: 20px;*/
+        /*    box-sizing: border-box;*/
+        /*}*/
+
+        /*.user-list table {*/
+        /*    width: 100%;*/
+        /*    border-collapse: collapse;*/
+        /*    font-size: 16px;*/
+        /*}*/
+
+        /*.user-list th,*/
+        /*.user-list td {*/
+        /*    padding: 10px;*/
+        /*    border: 1px solid #ccc;*/
+        /*    text-align: left;*/
+        /*}*/
+
+        /*.user-list th {*/
+        /*    background-color: #eee;*/
+        /*}*/
+
+        /*.search-bar label {*/
+        /*    display: block;*/
+        /*    margin-bottom: 10px;*/
+        /*    color: #333;*/
+        /*    font-size: 18px;*/
+        /*}*/
+
+        /*.search-bar input[type="text"] {*/
+        /*    display: block;*/
+        /*    width: 100%;*/
+        /*    padding: 10px;*/
+        /*    border: 1px solid #ccc;*/
+        /*    border-radius: 5px;*/
+        /*    font-size: 16px;*/
+        /*    box-sizing: border-box;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div class="main-info-form">
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="{{#_csrf}}{{_csrf.token}}{{/_csrf}}">
+        <input type="submit" value="Sign Out"/>
+    </form>
+    <h2>Find user by name</h2>
+    <form method="post" action="filter">
+        <input type="text" name="filter">
+        <input type="hidden" name="_csrf" value="{{#_csrf}}{{_csrf.token}}{{/_csrf}}">
+
+        <button type="submit">Search</button>
+    </form>
+    <form method="post" action="showAll">
+        <button type="submit">Show All Users</button>
+    </form>
+
+
+    {{#users}}
+        <div>
+            <b>{{id}}</b>
+            <b>{{username}}</b>
+            <span>{{password}}</span>
+            <i>{{phone}}</i>
+            <i>{{email}}</i>
+        </div>
+    {{/users}}
+</div>
+<h3></h3>
+
+<div class="tag-info-form">
+    <h2>Subscribe on a tag</h2>
+    <div>
+        <form method="post" action="subscribe">
+            <input type="text" name="tag" placeholder="Tag">
+            <button type="submit">Subscribe</button>
+        </form>
+    </div>
+
+    <form action="showTags" method="post">
+        <button type="submit">Show All Tags</button>
+    </form>
+    {{#settings}}
+        <div>
+            <b>{{id}}</b>
+            <span>{{tag}}</span>
+            <span>{{username}}</span>
+        </div>
+    {{/settings}}
+</div>
+
+</body>
+</html>
+
+
+<!--#D8E1E5;-->
+<!--72ae66-->
+<!--75a848-->
+<!--bbda97-->
+<!--c5e1a5-->
+
+<!--2f4858-->
+<!--33658a-->
+<!--0E94A0-->
