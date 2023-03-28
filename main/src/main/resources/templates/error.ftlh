@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Error</title>
+<#import "parts/common.ftlh" as c>
+
+<@c.page "Errors">
     <style>
         body {
             background-color: #b0c3c3;
@@ -46,5 +44,4 @@
 <h1>Oops! An error occurred.</h1>
 <p>Sorry, something went wrong. Please try again later.</p>
 <a href="/">Go back home</a>
-</body>
-</html>
+</@c.page>

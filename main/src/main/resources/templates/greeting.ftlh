@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Greetings!</title>
+<#import "parts/common.ftlh" as c>
+
+<@c.page "Greetings">
     <style>
         body {
             background-color: #c5e1a5;
@@ -36,16 +34,16 @@
             width: 200px;
             margin: 0 auto;
         }
-
         a:hover {
             background-color: seagreen;
         }
     </style>
 </head>
 <body>
+
 <h1>Welcome!</h1>
 <p>Thank you for visiting our website. We hope you enjoy your stay!</p>
 <a href="/main">Main page</a>
-</body>
-</html>
+
+</@c.page>
 

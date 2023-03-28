@@ -8,14 +8,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Controller
 public class RegistrationController {
     @Autowired
     private UserRepo userRepo;
+
     @GetMapping("/registration")
     public String registration() {
         return "registration";
@@ -23,17 +24,16 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model) {
-        User userFromDb = userRepo.findByUsername(user.getUsername()).get(0);
-
-       if (userFromDb != null) {
-           model.put("message", "User exists!");
-           System.out.println("Here");
-           return "registration";
-       }
+        List<User> users = userRepo.findByUsername(user.getUsername());
+        if (!users.isEmpty()) {
+            model.put("message", "User exists!");
+            System.out.println("Here");
+            return "registration";
+        }
         System.out.println(user);
-       user.setActive(true);
-       user.setRoles(Collections.singleton(Role.USER));
-       userRepo.save(user);
-       return "redirect:/login";
+        user.setActive(true);
+        user.setRoles(Collections.singleton(Role.USER));
+        userRepo.save(user);
+        return "redirect:/login";
     }
 }

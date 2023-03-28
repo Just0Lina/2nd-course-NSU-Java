@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Collections;
 import java.util.Map;
 
 @Controller
@@ -67,7 +66,7 @@ public class MainController {
     public String subscribeToTag(@AuthenticationPrincipal User user, @RequestParam String tag, Map<String, Object> model) {
         Settings setting = new Settings(tag, user);
         settingsRepo.save(setting);
-        
+
         Iterable<Settings> settings = settingsRepo.findAll();
         model.put("settings", settings);
         return "main";

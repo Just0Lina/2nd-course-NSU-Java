@@ -1,7 +1,9 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Authorization</title>
+<!--<!DOCTYPE html>-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml">-->
+<!--    <head>-->
+<#import "parts/common.ftlh" as c>
+
+<@c.page "Authorization">
     </head>
     <style>
         body {
@@ -78,6 +80,8 @@
     <form action="/registration">
         <input type="submit" value="Add new user" />
     </form>
-    </body>
-</html>
+    </@c.page>
+
+<!--    </body>-->
+<!--</html>-->
 
