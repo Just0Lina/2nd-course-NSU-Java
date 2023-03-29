@@ -97,7 +97,7 @@
         background-color: #d8e7cc;
     }
 
-    .sign-in-form label {
+    label {
         display: block;
         margin-bottom: 10px;
         color: #1c6038;
@@ -132,12 +132,30 @@
     input[type="submit"]:hover {
         background-color: seagreen;
     }
-    .sign-in-form h2 {
+    h2 {
         font-size: 30px;
         font-weight: bold;
         text-align: center;
         margin-bottom: 15px;
         color: seagreen;
+    }
+
+    button[type="submit"],
+    input[type="submit"]{
+        width: 100%;
+        display: block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: seagreen;
+        color: #E8F0F3;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #75a848;
     }
 </style>
 </#macro>
