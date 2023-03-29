@@ -26,6 +26,8 @@
         <input type="hidden" name="_csrf" value="{{#_csrf}}{{_csrf.token}}{{/_csrf}}">
 
         <button type="submit">Submit</button>
+        <span><a href="/user">User list</a></span>
+
     </form>
 
 </div>

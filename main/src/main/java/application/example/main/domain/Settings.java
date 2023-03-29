@@ -14,6 +14,16 @@ public class Settings {
     @JoinColumn(name = "user_id")
     User user;
 
+    private String filename;
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     public Settings(String tag, User user) {
         this.tag = tag;
         this.user = user;
@@ -49,6 +59,16 @@ public class Settings {
 
     public String getTag() {
         return tag;
+    }
+
+    @Override
+    public String toString() {
+        return "Settings{" +
+                "id=" + id +
+                ", tag='" + tag + '\'' +
+                ", user=" + user +
+                ", filename='" + filename + '\'' +
+                '}';
     }
 
     public void setTag(String tag) {

@@ -2,66 +2,11 @@
 <!--<html xmlns="http://www.w3.org/1999/xhtml">-->
 <!--    <head>-->
 <#import "parts/common.ftlh" as c>
+<#import "parts/style.ftlh" as s>
+
 
 <@c.page "Authorization">
-    </head>
-    <style>
-        body {
-            background-color: #c5e1a5;
-        }
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
-            background-color: #d8e7cc;
-        }
-
-        .sign-in-form label {
-            display: block;
-            margin-bottom: 10px;
-            color: #1c6038;
-            font-size: 20px;
-        }
-        input[type="text"],
-        input[type="password"] {
-            color: #14462a;
-            background-color: #c5e1a5;
-            display: block;
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            background-color: #75a848;
-            color: #E8F0F3;
-            border: none;
-            display: block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            width: 100%;
-            font-size: 18px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: seagreen;
-        }
-        .sign-in-form h2 {
-            font-size: 30px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 15px;
-            color: seagreen;
-        }
-    </style>
-    </head>
+<@s.styleLightGreen/>
 
     <body>
     <div class="sign-in-form">
@@ -81,7 +26,3 @@
         <input type="submit" value="Add new user" />
     </form>
     </@c.page>
-
-<!--    </body>-->
-<!--</html>-->
-

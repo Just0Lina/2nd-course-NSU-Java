@@ -1,13 +1,15 @@
 <#import "parts/common.ftlh" as c>
 <#import "parts/style.ftlh" as s>
+<#import "parts/login.ftlh" as l>
+
 
 <@c.page "MAIN PAGE">
     <@s.styleGreen/>
 <div class="main-info-form">
-    <form action="/logout" method="post">
-        <input type="hidden" name="_csrf" value="{{#_csrf}}{{_csrf.token}}{{/_csrf}}">
-        <input type="submit" value="Sign Out"/>
-    </form>
+    <div>
+    <@l.logout/>
+        <span><a href="/user">User list</a></span>
+    </div>
     <h2>Find user by name</h2>
     <form method="post" action="filter">
         <input type="text" name="filter">
@@ -38,8 +40,9 @@
 <div class="tag-info-form">
     <h2>Subscribe on a tag</h2>
     <div>
-        <form method="post" action="subscribe">
+        <form method="post" action="subscribe" enctype="multipart/form-data">
             <input type="text" name="tag" placeholder="Tag">
+            <input type="file" name="file">
             <button type="submit">Subscribe</button>
         </form>
     </div>
@@ -53,6 +56,11 @@
         <b>${setting.id}</b>
         <b>${setting.tag}</b>
         <span>${setting.username}</span>
+        <div>
+            <#if setting.filename??>
+            <img src="/img/${setting.filename}">
+        </#if>
+        </div>
     </div>
     <#else> No settings
 </#list>
@@ -60,8 +68,6 @@
 </div>
 </@c.page>
 
-<!--</body>-->
-<!--</html>-->
 
 
 <!--#D8E1E5;-->
