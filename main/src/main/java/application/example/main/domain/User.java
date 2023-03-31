@@ -1,6 +1,7 @@
 package application.example.main.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+//import jakarta.persistence.*;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +27,10 @@ public class User implements UserDetails {
 //    @OneToMany(fetch = FetchType.EAGER)
 //    @JsonManagedReference
 //    private List<Settings> settingsList;
+
+    public boolean isAdmin() {
+        return roles.contains(Role.ADMIN);
+    }
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))

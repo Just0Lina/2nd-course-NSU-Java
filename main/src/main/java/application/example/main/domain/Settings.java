@@ -2,6 +2,7 @@ package application.example.main.domain;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "settings")
 public class Settings {
