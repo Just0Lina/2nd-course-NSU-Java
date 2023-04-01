@@ -9,4 +9,9 @@ import java.util.List;
 public interface SettingsRepo extends JpaRepository<Settings, Long> {
     List<Settings> findByTag(String tag);
 
+    List<Settings> findByUser_id(long id);
+
+    List<Settings> findByUser_idAndTag(long id, String tag);
+
+
 }

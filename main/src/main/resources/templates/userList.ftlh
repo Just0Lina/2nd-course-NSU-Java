@@ -2,7 +2,7 @@
 <#import "parts/style.ftlh" as s>
 
 <@c.page "User Page">
-<@s.styleLightGreen/>
+<!--<@s.styleLightGreen/>-->
 <form>
 <h2>List of users:</h2>
 <#if users??>

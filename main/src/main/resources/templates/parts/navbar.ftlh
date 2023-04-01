@@ -20,7 +20,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="/user">User list</a>
             </li>
-            </#if>
+            <li class="nav-item">
+            <a class="nav-link" href="/adminInfo">Admin info</a>
+            </li>
+        </#if>
         </ul>
         <div class="navbar-text mr-3">${name}</div>
         <#if name !="unknown"><@l.logout/></#if>

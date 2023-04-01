@@ -2,7 +2,7 @@
 <#import "parts/style.ftlh" as s>
 
 <@c.page "User Edit Page">
-<@s.styleLightGreen/>
+<!--<@s.styleLightGreen/>-->
 
 <form action="/user" method="post">
     <h2>Edit user with id: <td>${user.id}</td> </h2>

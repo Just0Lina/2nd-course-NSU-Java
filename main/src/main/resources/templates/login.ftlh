@@ -3,26 +3,15 @@
 <!--    <head>-->
 <#import "parts/common.ftlh" as c>
 <#import "parts/style.ftlh" as s>
+<#import "parts/login.ftlh" as l>
 
 
 <@c.page "Authorization">
-<@s.styleLightGreen/>
+<!--<@s.styleLightGreen/>-->
 
-    <body>
-    <div class="sign-in-form">
+<@l.login "/login" false/>
 
-    <form action="/login" method="post">
-            <h2>Sign in Here</h2>
-        <div><label for="username">Username</label>
-            <input type="text" id="username" name="username" required></div>
-        <div><label for="password">Password</label>
-            <input type="password" id="password" name="password" required></div>
-         <input type="hidden" name="_csrf" value="{{#_csrf}}{{_csrf.token}}{{/_csrf}}">
-            <div><input type="submit" value="Sign In"/></div>
-
-        </form>
-    </div>
-    <form action="/registration">
-        <input type="submit" value="Add new user" />
-    </form>
+<!--    <form action="/registration">-->
+<!--        <input type="submit" value="Add new user" />-->
+<!--    </form>-->
     </@c.page>

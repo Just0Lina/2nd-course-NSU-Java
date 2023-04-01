@@ -1,8 +1,9 @@
 <#import "parts/common.ftlh" as c>
 <#import "parts/style.ftlh" as s>
+<#import "parts/login.ftlh" as l>
 
 <@c.page "Registration">
-<@s.styleGreen/>
+<!--<@s.styleGreen/>-->
 
 <body>
 <#if message??>
@@ -10,26 +11,7 @@
 </#if>
 <div class="registration-form">
     <h2>Register Here</h2>
-    <form method="post" action="/registration">
-        <label for="username">Name:</label>
-        <input type="text" id="name" name="username" required>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-
-        <label for="phone">Phone:</label>
-        <input type="tel" id="phone" name="phone" required>
-
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
-
-        <input type="hidden" name="_csrf" value="{{#_csrf}}{{_csrf.token}}{{/_csrf}}">
-
-        <button type="submit">Submit</button>
-        <span><a href="/user">User list</a></span>
-
-    </form>
-
+    <@l.login "/registration" true />
 </div>
 </@c.page>
 

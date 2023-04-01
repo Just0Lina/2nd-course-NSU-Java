@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -44,11 +45,17 @@ public class MainController {
         return "greeting";
     }
 
+
+    @GetMapping("/adminInfo")
+    public String adminInfo(Map<String, Object> model) {
+        return "adminInfo";
+    }
+
     @PostMapping("showAll")
     public String showAll(Map<String, Object> model) {
         Iterable<User> users = userRepo.findAll();
         model.put("users", users);
-        return "main";
+        return "adminInfo";
     }
 
     @PostMapping("filter")
@@ -60,17 +67,24 @@ public class MainController {
             users = userRepo.findAll();
         }
         model.put("users", users);
+        return "adminInfo";
+    }
+
+    @PostMapping("filterTags")
+    public String filterTags(@AuthenticationPrincipal User user,
+                             Map<String, Object> model) {
+//        System.out.println(user);
+        Iterable<Settings> settings = settingsRepo.findByUser_id(user.getId());
+        model.put("tags", settings);
         return "main";
     }
+
 
     @PostMapping("showTags")
     public String showTags(Map<String, Object> model) {
         Iterable<Settings> settings = settingsRepo.findAll();
-        for (Settings setting : settings) {
-            System.out.println(setting);
-        }
         model.put("settings", settings);
-        return "main";
+        return "adminInfo";
     }
 
     @PostMapping("subscribe")
@@ -79,8 +93,12 @@ public class MainController {
             @RequestParam String tag, Map<String, Object> model,
             @RequestParam("file") MultipartFile file) throws IOException {
 
-        if (tag.isEmpty()) return "main";
-
+        if (tag.isEmpty()) return "adminInfo";
+        List<Settings> settings = settingsRepo.findByUser_idAndTag(user.getId(), tag);
+        if (!settings.isEmpty()) {
+            System.out.println("Here");
+            return "adminInfo";
+        }
         Settings setting = new Settings(tag, user);
 
         if (!file.isEmpty()) {
@@ -94,7 +112,7 @@ public class MainController {
             setting.setFilename(resultFilename);
         }
         settingsRepo.save(setting);
-        return "main";
+        return "adminInfo";
     }
 
 }
