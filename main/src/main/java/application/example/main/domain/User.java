@@ -23,7 +23,18 @@ public class User implements UserDetails {
     private String email;
     private String phone;
     private String password;
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
     private boolean active;
+    private String activationCode;
+
 //    @OneToMany(fetch = FetchType.EAGER)
 //    @JsonManagedReference
 //    private List<Settings> settingsList;

@@ -16,7 +16,7 @@
 </#if>
 
 
-<!--<input type="text" value="${user.id}" name="userId">-->
+<input type="text" value="${user.id}" name="userId">
 <input type="hidden" name="_csrf" value="{{#_csrf}}{{_csrf.token}}{{/_csrf}}">
 <button type="submit">Save</button>
 </form>

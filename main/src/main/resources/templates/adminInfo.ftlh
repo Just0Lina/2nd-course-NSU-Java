@@ -5,6 +5,7 @@
 
 <@c.page "Other info">
 
+<!--<@s.styleLightGreen/>-->
 
 
 <div class="main-info-form">
@@ -28,15 +29,14 @@
     </div>
 </#list>
 </#if>
-</div>
 
 
 <!--<h3></h3>-->
 
-<a class="btn btn-primary my-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+<button class="btn btn-primary my-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
    aria-controls="collapseExample">
     Subscribe on a tag
-</a>
+</button>
 <div class="collapse" id="collapseExample">
     <div class="form-group mt-3">
         <form method="post" action="subscribe" enctype="multipart/form-data">
@@ -59,25 +59,24 @@
 </div>
 
 
-<div class="main-info-form">
-    <form method="post" action="showTags">
-        <input type="hidden" name="_csrf" value="{{#_csrf}}{{_csrf.token}}{{/_csrf}}">
-        <button type="submit" class="btn btn-primary">Show All Tags</button>
-    </form>
-    <#if settings??>
-    <div class="card-columns">
-        <#list settings as setting>
-        <div class="card my-3">
-            <div class="m-2">
-                <b>${setting.id}</b>
-                <b>${setting.tag}</b>
-                <span>${setting.username}</span>
-            </div>
-            <#if setting.filename??>
-            <img src="/img/${setting.filename}" class="card-img-top">
+<form method="post" action="showTags">
+    <input type="hidden" name="_csrf" value="{{#_csrf}}{{_csrf.token}}{{/_csrf}}">
+    <button type="submit" class="btn btn-primary">Show All Tags</button>
+</form>
+<#if settings??>
+<div class="card-columns">
+    <#list settings as setting>
+    <div class="card my-3">
+        <div class="m-2">
+            <b>${setting.id}</b>
+            <b>${setting.tag}</b>
+            <span>${setting.username}</span>
         </div>
-        <#else> No tags
+        <#if setting.filename??>
+        <img src="/img/${setting.filename}" class="card-img-top">
     </div>
+    <#else> No tags
+</div>
 </#if>
 </#list>
 </#if>

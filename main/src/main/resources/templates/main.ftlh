@@ -5,7 +5,7 @@
 
 
 <@c.page "MAIN PAGE">
-    <@s.styleGreen/>
+<!--    <@s.styleGreen/>-->
 <div class="main-info-form">
     <form method="post" action="filterTags">
         <input type="hidden" name="_csrf" value="{{#_csrf}}{{_csrf.token}}{{/_csrf}}">

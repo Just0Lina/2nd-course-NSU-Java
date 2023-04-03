@@ -53,7 +53,7 @@ public class WebSecurityConfig {
         http.csrf()
                 .disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home", "/registration").permitAll()
+                        .requestMatchers("/", "/home", "/activate/*", "/registration", "/static/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form

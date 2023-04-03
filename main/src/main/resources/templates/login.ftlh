@@ -8,7 +8,9 @@
 
 <@c.page "Authorization">
 <!--<@s.styleLightGreen/>-->
-
+<#if message??>
+${message}
+</#if>
 <@l.login "/login" false/>
 
 <!--    <form action="/registration">-->

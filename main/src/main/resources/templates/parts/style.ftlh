@@ -58,7 +58,8 @@
     }
 
     button[type="submit"],
-    input[type="submit"]{
+    input[type="submit"],
+    .btn{
         width: 100%;
         display: block;
         margin-top: 20px;
