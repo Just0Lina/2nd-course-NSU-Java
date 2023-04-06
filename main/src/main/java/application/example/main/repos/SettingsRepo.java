@@ -13,4 +13,5 @@ public interface SettingsRepo extends JpaRepository<Settings, Long> {
     List<Settings> findByUser_idAndTag(long id, String tag);
 
 
+    void deleteByUser_id(Long valueOf);
 }

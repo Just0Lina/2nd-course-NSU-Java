@@ -1,15 +1,20 @@
 package application.example.main.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
 
 
 @Entity
 @Table(name = "settings")
 public class Settings {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @SequenceGenerator(name = "settings_generator", sequenceName = "SEQ_USER", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "settings_generator")
+    private Long id;
 
+    @NotBlank(message = "Please fill the tag")
+    @Length(max = 50, message = "Tag too long (more than 50 char)")
     String tag;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -30,11 +35,11 @@ public class Settings {
         this.user = user;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

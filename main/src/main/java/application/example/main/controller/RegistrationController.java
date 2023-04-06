@@ -25,14 +25,14 @@ public class RegistrationController {
     public String addUser(User user, Map<String, Object> model) {
         if (!userService.addUser(user)) {
             model.put("message", "User exists!");
-            System.out.println("Here");
+//            System.out.println("Here");
             return "registration";
         }
 
         return "redirect:/login";
     }
 
-    @GetMapping("/activate")
+    @GetMapping("/activate/{code}")
     public String activate(Model model, @PathVariable String code) {
         boolean isActivated = userService.activateUser(code);
         if (isActivated) {

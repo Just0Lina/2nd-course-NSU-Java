@@ -1,28 +1,44 @@
 package application.example.main.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-//import jakarta.persistence.*;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "usr")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "client_generator", sequenceName = "SEQ_USER", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_generator")
     @Column(name = "id", updatable = false, nullable = false, unique = true)
-    private Integer id;
+    private Long id;
+
+    @NotBlank(message = "Username cannot be empty")
+
     @Column(name = "username")
     private String username;
+    @Email(message = "Email is not correct")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
     private String phone;
+    @NotBlank(message = "Password cannot be empty")
     private String password;
+    @Transient
+    @NotBlank(message = "Password confirmation cannot be empty")
+    private String password2;
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
+    }
 
     public String getActivationCode() {
         return activationCode;
@@ -55,7 +71,7 @@ public class User implements UserDetails {
         password = "default password";
     }
 
-    public User(Integer id, String username, String email, String phone, String password, boolean active) {
+    public User(Long id, String username, String email, String phone, String password, boolean active) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -109,11 +125,11 @@ public class User implements UserDetails {
     }
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
