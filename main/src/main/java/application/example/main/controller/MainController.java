@@ -6,11 +6,15 @@ import application.example.main.repos.SettingsRepo;
 import application.example.main.repos.UserRepo;
 import application.example.main.service.UserService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,9 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Controller
 public class MainController {
@@ -47,6 +51,8 @@ public class MainController {
 
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
+
+        
         return "greeting";
     }
 
@@ -76,7 +82,7 @@ public class MainController {
     public String filter(@RequestParam String filter, Map<String, Object> model) {
         Iterable<User> users;
         if (!filter.isEmpty()) {
-            users = userRepo.findByUsername(filter);
+            users = Collections.singleton(userRepo.findByUsername(filter));
         } else {
             users = userRepo.findAll();
         }
@@ -87,7 +93,7 @@ public class MainController {
     @PostMapping("filterTags")
     public String filterTags(@AuthenticationPrincipal User user,
                              Map<String, Object> model) {
-//        System.out.println(user);
+        System.out.println(user);
         Iterable<Settings> settings = settingsRepo.findByUser_id(user.getId());
         model.put("tags", settings);
         return "main";
@@ -104,30 +110,45 @@ public class MainController {
     @PostMapping("subscribe")
     public String subscribeToTag(
             @AuthenticationPrincipal User user,
-            @RequestParam String tag,
-            Map<String, Object> model,
+            @Valid Settings setting,
+            BindingResult bindingResult,
+            Model model,
+//            Map<String, Object> model,
+//            @RequestParam String tag,
             @RequestParam("file") MultipartFile file) throws IOException {
 
-        if (tag.isEmpty()) return "adminInfo";
-        List<Settings> settings = settingsRepo.findByUser_idAndTag(user.getId(), tag);
-        if (!settings.isEmpty()) {
+//        if (tag.isEmpty()) return "adminInfo";
+//        List<Settings> settings = settingsRepo.findByUser_idAndTag(user.getId(), tag);
+//        if (!settings.isEmpty()) {
+//            System.out.println("Here");
+//            return "adminInfo";
+//        }
+//        Settings setting = new Settings(tag, user);
+        if (bindingResult.hasErrors()) {
             System.out.println("Here");
-            return "adminInfo";
-        }
-        Settings setting = new Settings(tag, user);
-
-        if (!file.isEmpty()) {
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
+            Map<String, String> errorMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorMap);
+            System.out.println(errorMap);
+            model.addAttribute("setting", setting);
+        } else {
+            setting.setUser(user);
+            if (!file.isEmpty()) {
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdir();
+                }
+                String uuidFile = UUID.randomUUID().toString();
+                String resultFilename = uuidFile + "." + file.getOriginalFilename();
+                file.transferTo(new File(uploadPath + "/" + resultFilename));
+                setting.setFilename(resultFilename);
             }
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFilename = uuidFile + "." + file.getOriginalFilename();
-            file.transferTo(new File(uploadPath + "/" + resultFilename));
-            setting.setFilename(resultFilename);
+            model.addAttribute("setting", null);
+            settingsRepo.save(setting);
         }
-        settingsRepo.save(setting);
+        Iterable<Settings> settings = settingsRepo.findAll();
+        model.addAttribute("settings", settings);
         return "adminInfo";
     }
+
 
 }

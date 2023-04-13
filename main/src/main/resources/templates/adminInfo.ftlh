@@ -21,8 +21,8 @@
                 <b>${user.id}</b>
                 <b>${user.username}</b>
                 <span>${user.password}</span>
-                <i>${user.phone}</i>
-                <i>${user.email}</i>
+                <#if user.phone??><i>${user.phone}</i></#if>
+            <#if user.email??><i>${user.email}</i></#if>
             </div>
         </div>
         <#else> No tags
@@ -37,11 +37,17 @@
    aria-controls="collapseExample">
     Subscribe on a tag
 </button>
-<div class="collapse" id="collapseExample">
+<div class="collapse  <#if setting??>show</#if>" id="collapseExample">
     <div class="form-group mt-3">
         <form method="post" action="subscribe" enctype="multipart/form-data">
             <div class="form-group">
-                <input type="text" name="tag" class="form-control" placeholder="Tag">
+                <input type="text" name="tag" class="form-control ${(tagError??)?string('is-invalid','')}"
+                       value="<#if setting??>${setting.tag}</#if>" placeholder="Tag">
+                <#if tagError??>
+                <div class="invalid-feedback">
+                    ${tagError}
+                </div>
+            </#if>
             </div>
             <div class="form-group">
                 <div class="custom-file">
