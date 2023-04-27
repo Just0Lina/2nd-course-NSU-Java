@@ -4,15 +4,24 @@ import application.example.main.domain.Product;
 import application.example.main.repos.ProductRepo;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProductService {
     @Autowired
     private ProductRepo productRepo;
+
+    @Autowired
+    private FileService<Product> fileService;
+
 
     //    private final UserRepo userRepo;
 //
@@ -46,11 +55,17 @@ public class ProductService {
         productRepo.deleteById(id);
     }
 
-    public void saveProduct(Product prod, String prodName, double price, int prod_cat) {
+    public void saveFile(Product prod, MultipartFile file) throws IOException {
+        String f = fileService.saveFile(prod, file);
+        prod.setFilename(f);
+        productRepo.save(prod);
+    }
+
+    public void saveProduct(Product prod, String prodName, double price, int prod_cat, MultipartFile file) throws IOException {
         prod.setProductName(prodName);
         prod.setPrice(price);
         prod.setProductCategory(prod_cat);
-        productRepo.save(prod);
+        saveFile(prod, file); //save
     }
 
     public void updateProduct(Product prod, String newName, double price, int prod_cat) {
@@ -65,5 +80,6 @@ public class ProductService {
         }
         productRepo.save(prod);
     }
+
 
 }

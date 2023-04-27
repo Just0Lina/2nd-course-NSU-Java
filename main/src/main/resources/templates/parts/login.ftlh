@@ -56,7 +56,7 @@
     <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Phone:</label>
                 <div class="col-sm-6">
-                    <input type="tel" name="phone" value="<#if user??>user.phone</#if>"
+                    <input type="tel" name="phone" value="<#if user??>${user.phone}</#if>"
                            class="form-control"
                            placeholder="+79231428460" />
                 </div>

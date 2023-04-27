@@ -1,6 +1,6 @@
-<#import "parts/common.ftlh" as c>
-<#import "parts/style.ftlh" as s>
-<#import "parts/login.ftlh" as l>
+<#import "../parts/common.ftlh" as c>
+<#import "../parts/style.ftlh" as s>
+<#import "../parts/login.ftlh" as l>
 
 
 <@c.page "Products">
@@ -15,12 +15,11 @@
     <table>
         <thead>
         <tr>
-            <th>productName</th>
-            <th>price</th>
-            <th>productCategory</th>
+            <th>ProductName</th>
+            <th>Price</th>
+            <th>ProductCategory</th>
             <th>Edit</th>
             <th></th>
-
         </tr>
         </thead>
         <tbody>
@@ -30,7 +29,7 @@
             <td>${product.price}</td>
             <td>${product.productCategory}</td>
             <td><a href="/product/${product.id}">edit</a></td>
-            <form action="/delete" method="post">
+            <form action="/product/delete" method="post">
                 <td>
                     <input type="hidden" name="prodId" value=${product.id}>
                     <button type="submit" class="btn btn-primary">delete ${product.id}</button>

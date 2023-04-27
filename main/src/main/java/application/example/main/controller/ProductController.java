@@ -1,21 +1,18 @@
 package application.example.main.controller;
 
 import application.example.main.domain.Product;
-import application.example.main.domain.Role;
-import application.example.main.domain.User;
+import application.example.main.service.FileService;
 import application.example.main.service.ProductService;
-import application.example.main.service.UserService;
-import io.micrometer.common.util.StringUtils;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Map;
 
 @Controller
@@ -23,6 +20,10 @@ import java.util.Map;
 public class ProductController {
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private FileService fileService;
+
 
     //    @Transactional
     @PostMapping("delete")
@@ -39,13 +40,19 @@ public class ProductController {
     public String productList(Model model) {
         System.out.println("Here");
         model.addAttribute("products", productService.findAll());
-        return "productList";
+        return "/productPlace/productList";
     }
 
     @GetMapping("productCreation")
     public String showCreation() {
         System.out.println("Iam");
-        return "productCreation";
+        return "/productPlace/productCreation";
+    }
+
+    @GetMapping("shopping-cart")
+    public String showBuscket() {
+        System.out.println("Iam");
+        return "/productPlace/shoppingCart";
     }
 
     //http://localhost:8080/product/productCreation
@@ -53,22 +60,25 @@ public class ProductController {
     public String addProduct(
             @Valid Product product,
             BindingResult bindingResult,
-            Model model) {
+            Model model,
+            @RequestParam("file") MultipartFile file) throws IOException {
         System.out.println("Here");
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             System.out.println(errors);
             model.mergeAttributes(errors);
-            return "productCreation";
+//            return "main";
+            return "/productPlace/productCreation";
         }
         if (!productService.addProduct(product)) {
             model.addAttribute("productNameError", "Product exists!");
 //            return "greeting";
-            return "productCreation";
+            return "/productPlace/productCreation";
         }
+        productService.saveFile(product, file);
 
-        return "redirect:/productList";
+        return "redirect:/product";
 
     }
 
@@ -79,7 +89,7 @@ public class ProductController {
         model.addAttribute("product", product);
 //        model.addAttribute("roles", Role.values());
 
-        return "productEdit";
+        return "productPlace/productEdit";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -88,9 +98,10 @@ public class ProductController {
             @RequestParam String productName,
             @RequestParam double price,
             @RequestParam int productCategory,
-            @RequestParam("prodId") Product prod
-    ) {
-        productService.saveProduct(prod, productName, price, productCategory);
+            @RequestParam("prodId") Product prod,
+            @RequestParam("file") MultipartFile file) throws IOException {
+        productService.saveProduct(prod, productName, price, productCategory, file);
+
         return "redirect:/product";
     }
 

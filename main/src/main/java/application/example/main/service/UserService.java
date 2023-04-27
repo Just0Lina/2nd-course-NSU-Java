@@ -95,8 +95,10 @@ public class UserService implements UserDetailsService {
 
     public void updateProfile(User user, String password, String email, String phone) {
         String userEmail = user.getEmail();
-        boolean isEmailChanged = (email != null && !email.equals(userEmail) ||
-                userEmail != null && !userEmail.equals(email));
+        boolean isEmailChanged = (!email.isEmpty() && !email.equals(userEmail) ||
+                !userEmail.isEmpty() && !email.isEmpty() && !userEmail.equals(email));
+//        System.out.println((!email.isEmpty() && !email.equals(userEmail)) + "HERE" + (!userEmail.isEmpty() && !email.isEmpty() && !userEmail.equals(email)));
+
         if (isEmailChanged) {
             user.setEmail(email);
             if (!StringUtils.isEmpty(email)) {
@@ -109,6 +111,7 @@ public class UserService implements UserDetailsService {
         if (!StringUtils.isEmpty(phone)) {
             user.setPhone(phone);
         }
+        System.out.println(user + email);
         userRepo.save(user);
         if (isEmailChanged) {
             sendMessage(user);

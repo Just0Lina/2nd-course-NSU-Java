@@ -1,7 +1,7 @@
-<#import "parts/common.ftlh" as c>
-<#import "parts/style.ftlh" as s>
-<#import "parts/login.ftlh" as l>
-<#include "parts/security.ftlh">
+<#import "../parts/common.ftlh" as c>
+<#import "../parts/style.ftlh" as s>
+<#import "../parts/login.ftlh" as l>
+<#include "../parts/security.ftlh">
 
 
 <@c.page "MAIN PAGE">

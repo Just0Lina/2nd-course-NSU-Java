@@ -2,6 +2,10 @@ drop sequence settings_seq;
 drop sequence SEQ_USER;
 drop sequence SEQ_PROD;
 
+drop table products;
+drop table settings;
+drop table usr;
+
 
 create sequence settings_seq start with 1 increment 1;
 create sequence SEQ_USER start with 1 increment by 1;
@@ -36,6 +40,7 @@ create table usr
 create table products
 (
     id               bigint    not null,
+    filename         varchar(255),
     price            float(53) not null check (price >= 0),
     product_category integer check (product_category >= 0),
     product_name     varchar(255),

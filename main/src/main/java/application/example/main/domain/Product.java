@@ -34,6 +34,7 @@ public class Product {
     @Column(name = "product_category", nullable = false)
     private int productCategory;
 
+    private String filename;
 
 }
 

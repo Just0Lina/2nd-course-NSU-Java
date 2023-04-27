@@ -1,5 +1,5 @@
-<#import "parts/common.ftlh" as c>
-<#import "parts/style.ftlh" as s>
+<#import "../parts/common.ftlh" as c>
+<#import "../parts/style.ftlh" as s>
 
 <@c.page "User Edit Page">
 <!--<@s.styleLightGreen/>-->

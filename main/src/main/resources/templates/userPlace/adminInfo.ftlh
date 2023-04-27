@@ -1,6 +1,6 @@
-<#import "parts/common.ftlh" as c>
-<#import "parts/style.ftlh" as s>
-<#include "parts/security.ftlh">
+<#import "../parts/common.ftlh" as c>
+<#import "../parts/style.ftlh" as s>
+<#include "../parts/security.ftlh">
 
 
 <@c.page "Other info">

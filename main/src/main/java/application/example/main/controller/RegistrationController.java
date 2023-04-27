@@ -22,7 +22,7 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public String registration() {
-        return "registration";
+        return "userPlace/registration";
     }
 
     @PostMapping("/registration")
@@ -42,11 +42,11 @@ public class RegistrationController {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             System.out.println(errors);
             model.mergeAttributes(errors);
-            return "registration";
+            return "userPlace/registration";
         }
         if (!userService.addUser(user)) {
             model.addAttribute("usernameError", "User exists!");
-            return "registration";
+            return "userPlace/registration";
         }
 
         return "redirect:/login";
@@ -63,6 +63,6 @@ public class RegistrationController {
             model.addAttribute("messageType", "danger");
             model.addAttribute("message", "Activation code is not found");
         }
-        return "login";
+        return "userPlace/login";
     }
 }
