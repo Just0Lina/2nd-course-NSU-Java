@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ShopListRepo extends JpaRepository<ShoppingList, Long> {
-    List<ShoppingList> findByUser(User user);
-
-    void deleteById(Long valueOf);
-
-}
+//public interface ShopListRepo extends JpaRepository<ShoppingList, Long> {
+//    List<ShoppingList> findByProd_id(Long prodId);
+//
+////    void deleteById(Long valueOf);
+//
+//}

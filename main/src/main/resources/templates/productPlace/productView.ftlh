@@ -10,18 +10,26 @@
     <div class="col">
         <div class="card h-100 ">
             <#if product.filename??>
-                <img src="/img/${product.filename}"  class="card-img-top" height="200">
-            </#if>
-            <div class="card-body">
-                <h5 class="card-title">${product.productName}</h5>
-                <p class="card-text">${product.price} Р</p>
-            </div>
-        <a href="/main" class="btn btn-primary stretched-link">Go somewhere</a><!--            <div class="card-footer">-->
-<!--                <small class="text-muted">Last updated 3 mins ago</small>-->
-<!--            </div>-->
+            <img src="/img/${product.filename}" class="card-img-top" height="200">
+        </#if>
+        <div class="card-body">
+            <h5 class="card-title">${product.productName}</h5>
+            <p class="card-text">${product.price} Р</p>
+            <form action="/bucket/add-to-cart" method="post">
+
+            <button type="button" class="btn btn-primary add-to-cart-btn" data-product-id="${product.id}"
+                    data-product-name="${product.productName}" data-product-price="${product.price}">
+                Add to cart
+            </button>
+            </form>
+
         </div>
+        <!--            <div class="card-footer">-->
+        <!--                <small class="text-muted">Last updated 3 mins ago</small>-->
+        <!--            </div>-->
     </div>
-    </#list>
+</div>
+</#list>
 
 </div>
 </#if>

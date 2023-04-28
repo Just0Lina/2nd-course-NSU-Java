@@ -23,7 +23,7 @@
         <tbody>
         <#list list as position>
         <tr>
-            <td>${position.user}</td>
+            <td>${position.prod_id}</td>
             <td>${position.quantity}</td>
             <td>${position.product}</td>
             <form action="/bucket/delete" method="post">

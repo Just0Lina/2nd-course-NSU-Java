@@ -4,7 +4,32 @@
 
 <@c.page "Basket">
 <section class="h-100 h-custom">
-
+    <div class="container">
+        <h2>Glyphicon Examples</h2>
+        <p>Envelope icon: <span class="glyphicon glyphicon-envelope"></span></p>
+        <p>Envelope icon as a link:
+            <a href="#">
+                <span class="glyphicon glyphicon-envelope"></span>
+            </a>
+        </p>
+        <p>Search icon: <span class="glyphicon glyphicon-search"></span></p>
+        <p>Search icon on a button:
+            <button type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-search"></span> Search
+            </button>
+        </p>
+        <p>Search icon on a styled button:
+            <button type="button" class="btn btn-info">
+                <span class="glyphicon glyphicon-search"></span> Search
+            </button>
+        </p>
+        <p>Print icon: <span class="glyphicon glyphicon-print"></span></p>
+        <p>Print icon on a styled link button:
+            <a href="#" class="btn btn-success btn-lg">
+                <span class="glyphicon glyphicon-print"></span> Print
+            </a>
+        </p>
+    </div>
     <div class="container h-100 py-5">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col">
@@ -34,9 +59,10 @@
                             <td class="align-middle">
                                 <p class="mb-0" style="font-weight: 500; color: ">Digital</p>
                             </td>
+
                             <td class="align-middle">
                                 <div class="d-flex flex-row">
-                                    <button class="btn btn-link px-2"
+                                    <button class="glyphicon glyphicon-plus"
                                             onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                                         <i class="fas fa-minus"></i>
                                     </button>

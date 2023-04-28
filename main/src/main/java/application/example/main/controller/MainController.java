@@ -40,9 +40,6 @@ public class MainController {
     @Autowired
     private FileService<Settings> fileService;
 
-    @Autowired
-    private ProductService productService;
-
 
     @GetMapping("/main")
     public String main(Map<String, Object> model) {
@@ -59,12 +56,6 @@ public class MainController {
         return "greeting";
     }
 
-    @GetMapping("/productView")
-    public String productView(Map<String, Object> model) {
-        Iterable<Product> products = productService.findAll();
-        model.put("products", products);
-        return "productPlace/productView";
-    }
 
     @Transactional
     @PostMapping("delete")
