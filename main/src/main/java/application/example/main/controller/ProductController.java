@@ -27,7 +27,7 @@ public class ProductController {
 
     //    @Transactional
     @PostMapping("delete")
-    public String userDeleteForm(@RequestParam String prodId, Model model) {
+    public String productDeleteForm(@RequestParam String prodId, Model model) {
         System.out.println("Ber");
         Long id = Long.valueOf(prodId.replaceAll("\u00a0", ""));
         productService.deleteById(id);
@@ -50,7 +50,7 @@ public class ProductController {
     }
 
     @GetMapping("shopping-cart")
-    public String showBuscket() {
+    public String showBucket() {
         System.out.println("Iam");
         return "/productPlace/shoppingCart";
     }
@@ -85,7 +85,7 @@ public class ProductController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{product}")
-    public String userEditForm(@PathVariable Product product, Model model) {
+    public String productEditForm(@PathVariable Product product, Model model) {
         model.addAttribute("product", product);
 //        model.addAttribute("roles", Role.values());
 

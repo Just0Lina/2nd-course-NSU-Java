@@ -1,5 +1,6 @@
 package application.example.main.service;
 
+import application.example.main.config.BeanConfig;
 import application.example.main.domain.Role;
 import application.example.main.domain.User;
 import application.example.main.repos.UserRepo;
@@ -27,7 +28,7 @@ public class UserService implements UserDetailsService {
 //        this.userRepo = userRepo;
 //    }
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private BeanConfig passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -45,9 +46,9 @@ public class UserService implements UserDetailsService {
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
         System.out.println(user.getPassword());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println(passwordEncoder.encode(user.getPassword()));
-        user.setActive(false);
+        user.setPassword(passwordEncoder.getPasswordEncoder().encode(user.getPassword()));
+        System.out.println(passwordEncoder.getPasswordEncoder().encode(user.getPassword()));
+//        user.setActive(false);
         userRepo.save(user);
         sendMessage(user);
         return true;
@@ -106,7 +107,7 @@ public class UserService implements UserDetailsService {
             }
         }
         if (!StringUtils.isEmpty(password)) {
-            user.setPassword(passwordEncoder.encode(password));
+            user.setPassword(passwordEncoder.getPasswordEncoder().encode(password));
         }
         if (!StringUtils.isEmpty(phone)) {
             user.setPhone(phone);

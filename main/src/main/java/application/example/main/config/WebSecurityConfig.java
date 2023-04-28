@@ -19,13 +19,13 @@ public class WebSecurityConfig {
     private UserService userService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private BeanConfig passwordEncoder;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth)
             throws Exception {
         auth.userDetailsService(userService)
-                .passwordEncoder(passwordEncoder);
+                .passwordEncoder(passwordEncoder.getPasswordEncoder());
     }
 
 
@@ -34,16 +34,16 @@ public class WebSecurityConfig {
         http.csrf()
                 .disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home", "/activate/**", "/registration", "/static/**").permitAll()
+                        .requestMatchers("/", "/home", "/user", "/activate/**", "/registration", "/static/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .permitAll()
                         .defaultSuccessUrl("/main")
+
                 )
-                .logout((logout) -> logout.permitAll())
-                .rememberMe();
+                .logout((logout) -> logout.permitAll());
 
 
         return http.build();
