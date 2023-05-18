@@ -7,29 +7,29 @@
 <!--    <input type="hidden" name="_csrf" value="{{#_csrf}}{{_csrf.token}}{{/_csrf}}">-->
 <!--    <button class="btn btn-primary" type="submit">Add product</button>-->
 <!--</form>-->
-<a href="/">Back to shop</a>
+<a href="/bucket/productView">Back to shop</a>
 <form>
     <h2>List of products:</h2>
-    <#if list??>
+    <#if cart?? && cart.items??>
     <table>
         <thead>
         <tr>
-            <th>User</th>
+            <th>Product Name</th>
             <th>Quantity</th>
-            <th>Product</th>
+            <th>Price</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
-        <#list list as position>
+        <#list cart.items as position>
         <tr>
-            <td>${position.prod_id}</td>
+            <td>${position.productName}</td>
             <td>${position.quantity}</td>
-            <td>${position.product}</td>
+            <td>${position.price}</td>
             <form action="/bucket/delete" method="post">
                 <td>
-                    <input type="hidden" name="posId" value=${position.id}>
-                    <button type="submit" class="btn btn-primary">delete ${position.id}</button>
+                    <input type="hidden" name="prodId" value=${position.prod_id}>
+                    <button type="submit" class="btn btn-primary">delete ${position.prod_id}</button>
                 </td></form>
         </tr>
         </#list>

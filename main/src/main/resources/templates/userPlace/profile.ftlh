@@ -2,7 +2,6 @@
 <#import "../parts/style.ftlh" as s>
 
 <@c.page "Authorization">
-<!--<@s.styleLightGreen/>-->
 <#if message??>
 <div class="alert alert-success" role="alert">
 ${message}
@@ -59,7 +58,7 @@ ${message}
         </#if>
     </div>
     </div>
-<div class="col-sm-2">
+<div class="form-group row col-sm-9">
     <input type="hidden" name="_csrf" value="{{#_csrf}}{{_csrf.token}}{{/_csrf}}">
     <button class="btn btn-primary" type="submit">Save</button>
 </div>

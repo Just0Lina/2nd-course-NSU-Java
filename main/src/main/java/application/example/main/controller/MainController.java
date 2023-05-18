@@ -1,12 +1,10 @@
 package application.example.main.controller;
 
-import application.example.main.domain.Product;
 import application.example.main.domain.Settings;
 import application.example.main.domain.User;
 import application.example.main.repos.SettingsRepo;
 import application.example.main.repos.UserRepo;
 import application.example.main.service.FileService;
-import application.example.main.service.ProductService;
 import application.example.main.service.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

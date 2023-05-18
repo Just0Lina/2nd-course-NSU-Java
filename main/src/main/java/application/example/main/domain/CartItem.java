@@ -14,8 +14,20 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CartItem {
     private Long prod_id;
+
+    private String productName;
     private double price;
     private int quantity;
 
-    // Конструктор и методы доступа к полям
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "prod_id=" + prod_id +
+                ", productName='" + productName + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                '}';
+    }
+
+// Конструктор и методы доступа к полям
 }
