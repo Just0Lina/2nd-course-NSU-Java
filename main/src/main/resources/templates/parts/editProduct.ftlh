@@ -57,9 +57,8 @@
     <div class="form-group row">
 
     </label>
-    <label class="col-md-2 col-form-label">
+    <label class="col col-form-label">
         <#if isEditForm><input type="hidden" value="${product.id}" name="prodId"></#if>
-
         <button class="btn btn-primary" type="submit"><#if isEditForm>Save<#else>Add product</#if></button>
     </label>
     </div>

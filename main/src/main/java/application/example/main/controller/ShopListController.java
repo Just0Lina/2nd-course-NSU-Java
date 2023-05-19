@@ -127,7 +127,6 @@ public class ShopListController {
                 if (cookie.getName().equals("shoppingList3")) {
                     String cartJson = cookie.getValue();
                     ShoppingList cart = ShoppingList.deserialize(cartJson);
-                    System.out.println("HEllo1");
 
                     cart.removeById(id);
                     cookie.setValue(cart.serialize());

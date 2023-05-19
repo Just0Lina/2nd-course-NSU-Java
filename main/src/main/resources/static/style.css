@@ -133,3 +133,12 @@ table tr:nth-child(even) {
 table tr:hover {
     background-color: #bddab1;
 }
+
+
+.address-select select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #bddab1;
+    border-radius: 4px;
+    background: #bedbb2;
+}

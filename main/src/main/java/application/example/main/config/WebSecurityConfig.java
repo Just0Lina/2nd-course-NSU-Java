@@ -34,13 +34,12 @@ public class WebSecurityConfig {
         http.csrf()
                 .disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home", "/user", "/activate/**", "/registration", "/static/**").permitAll()
+                        .requestMatchers("/", "/home", "/bucket/**", "/img/**", "/user", "/activate/**", "/registration", "/static/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .permitAll()
-                        .defaultSuccessUrl("/main")
 
                 )
                 .logout((logout) -> logout.permitAll());
