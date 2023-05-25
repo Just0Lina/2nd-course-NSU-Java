@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -33,38 +32,19 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable()
-                .authorizeHttpRequests((requests) -> requests
+                .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/", "/home", "/bucket/**", "/img/**", "/user", "/activate/**", "/registration", "/static/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin((form) -> form
+                .formLogin(form -> form
                         .loginPage("/login")
                         .permitAll()
 
                 )
-                .logout((logout) -> logout.permitAll());
+                .logout(logout -> logout.permitAll());
 
 
         return http.build();
     }
-
-
-//    @Bean
-//    public InMemoryUserDetailsManager userDetailsService() {
-//        UserDetails user1 = User.withUsername("user1")
-//                .password(getPasswordEncoder().encode("user1Pass"))
-//                .roles("USER")
-//                .build();
-//        UserDetails user2 = User.withUsername("user2")
-//                .password(getPasswordEncoder().encode("user2Pass"))
-//                .roles("USER")
-//                .build();
-//        UserDetails admin = User.withUsername("admin")
-//                .password(getPasswordEncoder().encode("admin"))
-//                .roles("ADMIN")
-//                .build();
-//        return new InMemoryUserDetailsManager(user1, user2, admin);
-//    }
-
 
 }

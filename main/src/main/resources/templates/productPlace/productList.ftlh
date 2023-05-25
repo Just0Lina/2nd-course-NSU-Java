@@ -1,13 +1,7 @@
 <#import "../parts/common.ftlh" as c>
-<#import "../parts/style.ftlh" as s>
 <#import "../parts/login.ftlh" as l>
 
-
 <@c.page "Products">
-<!--<form action="/product" method="post">-->
-<!--    <input type="hidden" name="_csrf" value="{{#_csrf}}{{_csrf.token}}{{/_csrf}}">-->
-<!--    <button class="btn btn-primary" type="submit">Add product</button>-->
-<!--</form>-->
 <a href="/product/productCreation">Add product</a>
 <form>
     <h2>List of products:</h2>

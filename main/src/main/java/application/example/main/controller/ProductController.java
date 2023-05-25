@@ -18,6 +18,9 @@ import java.util.Map;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
+    private static final String REDIRECT_PRODUCT = "redirect:/product";
+    private static final String PRODUCT_CREATION = "/productPlace/productCreation";
+
     @Autowired
     private ProductService productService;
 
@@ -28,30 +31,26 @@ public class ProductController {
     //    @Transactional
     @PostMapping("delete")
     public String productDeleteForm(@RequestParam String prodId, Model model) {
-        System.out.println("Ber");
         Long id = Long.valueOf(prodId.replaceAll("\u00a0", ""));
         productService.deleteById(id);
 
-        return "redirect:/product";
+        return REDIRECT_PRODUCT;
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public String productList(Model model) {
-        System.out.println("Here");
         model.addAttribute("products", productService.findAll());
         return "/productPlace/productList";
     }
 
     @GetMapping("productCreation")
     public String showCreation() {
-        System.out.println("Iam");
-        return "/productPlace/productCreation";
+        return PRODUCT_CREATION;
     }
 
     @GetMapping("shopping-cart")
     public String showBucket() {
-        System.out.println("Iam");
         return "/productPlace/shoppingCart";
     }
 
@@ -62,23 +61,19 @@ public class ProductController {
             BindingResult bindingResult,
             Model model,
             @RequestParam("file") MultipartFile file) throws IOException {
-        System.out.println("Here");
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            System.out.println(errors);
             model.mergeAttributes(errors);
-//            return "main";
-            return "/productPlace/productCreation";
+            return PRODUCT_CREATION;
         }
         if (!productService.addProduct(product)) {
             model.addAttribute("productNameError", "Product exists!");
-//            return "greeting";
-            return "/productPlace/productCreation";
+            return PRODUCT_CREATION;
         }
         productService.saveFile(product, file);
 
-        return "redirect:/product";
+        return REDIRECT_PRODUCT;
 
     }
 
@@ -87,7 +82,6 @@ public class ProductController {
     @GetMapping("{product}")
     public String productEditForm(@PathVariable Product product, Model model) {
         model.addAttribute("product", product);
-//        model.addAttribute("roles", Role.values());
 
         return "productPlace/productEdit";
     }
@@ -102,17 +96,8 @@ public class ProductController {
             @RequestParam("file") MultipartFile file) throws IOException {
         productService.saveProduct(prod, productName, price, productCategory, file);
 
-        return "redirect:/product";
+        return REDIRECT_PRODUCT;
     }
-
-//    @Transactional
-//    @PostMapping("{product}/delete")
-//    public String userDeleteForm(@RequestParam String prodId, Model model) {
-//        Long id = Long.valueOf(prodId.replaceAll("\u00a0", ""));
-//        productService.deleteById(id);
-//
-//        return "redirect:/product";
-//    }
 
 
 }

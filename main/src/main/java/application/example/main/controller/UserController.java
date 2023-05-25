@@ -18,6 +18,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+    private static final String USER_PROFILE = "userPlace/profile";
+
     @Autowired
     private UserService userService;
 
@@ -54,7 +56,7 @@ public class UserController {
         model.addAttribute("email", user.getEmail());
         model.addAttribute("phone", user.getPhone());
 //        model.addAttribute("password", user.getPassword());
-        return "userPlace/profile";
+        return USER_PROFILE;
     }
 
     @PostMapping("profile")
@@ -74,18 +76,16 @@ public class UserController {
         if (isConfirmEmpty) {
             model.addAttribute("password2Error", "Password confirmation cannot be empty");
         }
-        System.out.println(user.getPassword() + " " + passwordConfirm);
         if (!password.isEmpty() && !password.equals(passwordConfirm)) {
             model.addAttribute("passwordError", "Passwords are different");
         }
         if (isConfirmEmpty || bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            System.out.println(errors);
             model.mergeAttributes(errors);
-            return "userPlace/profile";
+            return USER_PROFILE;
         }
         userService.updateProfile(user, password, email, phone);
         model.addAttribute("message", "User successfully changed");
-        return "userPlace/profile";
+        return USER_PROFILE;
     }
 }

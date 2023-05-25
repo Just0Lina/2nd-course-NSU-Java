@@ -51,24 +51,6 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
-//
-//    @Override
-//    public String toString() {
-//        return "User{" +
-//                "id=" + id +
-//                ", username='" + username + '\'' +
-//                ", email='" + email + '\'' +
-//                ", phone='" + phone + '\'' +
-//                ", password='" + password + '\'' +
-//                ", active=" + active +
-//                ", roles=" + roles +
-//                "\n";
-//    }
-
-//    @OneToMany(fetch = FetchType.EAGER)
-//    @JsonManagedReference
-//    private List<Settings> settingsList;
-
 
     public User() {
         username = "default user";

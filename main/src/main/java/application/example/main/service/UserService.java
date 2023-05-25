@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -45,10 +44,7 @@ public class UserService implements UserDetailsService {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
-        System.out.println(user.getPassword());
         user.setPassword(passwordEncoder.getPasswordEncoder().encode(user.getPassword()));
-        System.out.println(passwordEncoder.getPasswordEncoder().encode(user.getPassword()));
-//        user.setActive(false);
         userRepo.save(user);
         sendMessage(user);
         return true;
@@ -56,7 +52,6 @@ public class UserService implements UserDetailsService {
 
     private void sendMessage(User user) {
         if (!StringUtils.isEmpty(user.getEmail())) {
-            System.out.println("+" + user.getEmail() + "+");
             String message = String.format("Hello, %s\n" +
                             "Welcome to Linacy made by Just0Lina. Please, confirm your email: http://localhost:8080/activate/%s",
                     user.getUsername(), user.getActivationCode());
@@ -67,7 +62,6 @@ public class UserService implements UserDetailsService {
     public boolean activateUser(String code) {
         User user = userRepo.findByActivationCode(code);
         if (user == null) {
-            System.out.println("Not this " + code + " This " + userRepo.findByUsername("admin").getActivationCode());
             return false;
         }
         user.setActivationCode(null);
@@ -98,7 +92,6 @@ public class UserService implements UserDetailsService {
         String userEmail = user.getEmail();
         boolean isEmailChanged = (!email.isEmpty() && !email.equals(userEmail) ||
                 !userEmail.isEmpty() && !email.isEmpty() && !userEmail.equals(email));
-//        System.out.println((!email.isEmpty() && !email.equals(userEmail)) + "HERE" + (!userEmail.isEmpty() && !email.isEmpty() && !userEmail.equals(email)));
 
         if (isEmailChanged) {
             user.setEmail(email);
@@ -112,7 +105,6 @@ public class UserService implements UserDetailsService {
         if (!StringUtils.isEmpty(phone)) {
             user.setPhone(phone);
         }
-        System.out.println(user + email);
         userRepo.save(user);
         if (isEmailChanged) {
             sendMessage(user);

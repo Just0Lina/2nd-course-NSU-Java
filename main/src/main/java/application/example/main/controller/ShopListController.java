@@ -4,14 +4,20 @@ package application.example.main.controller;
 import application.example.main.domain.CartItem;
 import application.example.main.domain.Product;
 import application.example.main.domain.ShoppingList;
+import application.example.main.domain.User;
 import application.example.main.service.ProductService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -30,6 +36,7 @@ public class ShopListController {
         return "productPlace/productView";
     }
 
+
     @PostMapping("/add-to-cart")
     public String addToCart(
             @RequestParam("productId") String productId,
@@ -38,103 +45,139 @@ public class ShopListController {
             @RequestParam("productQuantity") String productQuantity,
             Model model,
             HttpServletResponse response,
-            @CookieValue(value = "shoppingList3", required = false) String cartCookieValue) {
+            HttpServletRequest request,
+            @RequestParam String userId) {
 
-        // Create a cart item object and add it to the cart
+        String cookieName = "user_" + userId + "_product_" + productId;
+        String productCookieValue = getCookieValue(request, cookieName);
+
+        // Create a cart item object
         Long id = Long.valueOf(productId.replaceAll("\u00a0", ""));
-        double price = Double.valueOf(productPrice.replaceAll("\u00a0", ""));
-        int quantity = Integer.valueOf(productQuantity.replaceAll("\u00a0", ""));
+        double price = Double.parseDouble(productPrice.replaceAll("\u00a0", ""));
+        int quantity = Integer.parseInt(productQuantity.replaceAll("\u00a0", ""));
 
         CartItem item = new CartItem(id, productName, price, quantity);
-        ShoppingList cart;
-
-        if (cartCookieValue != null) {
-            // If the cookie exists, retrieve the cart from the cookie
-            cart = ShoppingList.deserialize(cartCookieValue);
-        } else {
-            // If the cookie is absent, create a new cart
-            cart = new ShoppingList();
+        if (productCookieValue != null) {
+            return productView(model);
         }
 
-        cart.addItem(item);
-
-        // Save the cart in the cookie
-        Cookie cookie = new Cookie("shoppingList3", cart.serialize());
-        cookie.setPath("/"); // Set the path to the root directory so that the cookie is accessible on all pages
+        Cookie cookie = new Cookie("user_" + userId + "_product_" + id, item.serialize());
+        cookie.setPath("/");
         response.addCookie(cookie);
-        System.out.println(cookie.getName());
+        return productView(model);
+    }
 
-        // Set the cart attribute in the model
+    private String getCookieValue(HttpServletRequest request, String cookieName) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(cookieName)) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+    }
+
+    @PostMapping("/changeQuantity")
+    public String changeQuantity(
+            @RequestParam("productId") String productId,
+            @RequestParam("quantity") String productQuantity,
+            Model model,
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @AuthenticationPrincipal User user) {
+        Cookie[] cookies = request.getCookies();
+        Long id = Long.valueOf(productId.replaceAll("\u00a0", ""));
+        int quantity = Integer.parseInt(productQuantity.replaceAll("\u00a0", ""));
+        Cookie cartCookie = findCookieById(cookies, id, user.getId());
+
+        if (cartCookie != null) {
+            String cartJson = cartCookie.getValue();
+            CartItem cart = CartItem.deserialize(cartJson);
+            cart.setQuantity(quantity);
+            Cookie cookie = new Cookie("user_" + user.getId() + "_product_" + id, cart.serialize());
+            cookie.setPath("/");
+            response.addCookie(cookie);
+        }
+
+        ShoppingList cart = findProductCookies(cookies, user.getId());
         model.addAttribute("cart", cart);
 
-        // Return the view name
-        return productView(model);
+        return "redirect:/bucket";
+
+
     }
 
     @GetMapping
     public String showCart(Model model,
                            HttpServletRequest request,
-                           HttpServletResponse response) {
+                           HttpServletResponse response,
+                           @AuthenticationPrincipal User user) {
 
         // Retrieve the shopping cart from the cookie
         Cookie[] cookies = request.getCookies();
-        Cookie cartCookie = findCartCookie(cookies);
+        ShoppingList cart = findProductCookies(cookies, user.getId());
+        model.addAttribute("cart", cart);
 
-        if (cartCookie != null) {
-            String cartJson = cartCookie.getValue();
-            ShoppingList cart = ShoppingList.deserialize(cartJson);
-            // Pass the cart to the view
-            model.addAttribute("cart", cart);
-        }
 
         // Return the view name for the cart page
         return "shoppingListPlace/shoppingList";
     }
 
 
-    private Cookie findCartCookie(Cookie[] cookies) {
-
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("shoppingList3")) {
-                    return cookie;
-                }
+    private ShoppingList findProductCookies(@NotNull Cookie[] cookies, Long userId) {
+        ShoppingList res = new ShoppingList();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().startsWith("user_" + userId + "_product_")) {
+                res.addItem(CartItem.deserialize(cookie.getValue()));
             }
         }
-        return null;
+        return res;
+    }
+
+
+    private Cookie findCookieById(@NotNull Cookie[] cookies, Long id, Long userId) {
+        Cookie res = null;
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().split("_").length == 4
+                    && Integer.parseInt(cookie.getName().split("_")[1]) == userId
+                    && Integer.parseInt(cookie.getName().split("_")[3]) == id) {
+                res = cookie;
+            }
+        }
+        return res;
     }
 
     //    @Transactional
-
     @PostMapping("delete")
     public String positionDelete(@RequestParam String prodId,
-                                 Model model,
                                  HttpServletRequest request,
-                                 HttpServletResponse response) {
+                                 HttpServletResponse response,
+                                 @AuthenticationPrincipal User user
+    ) {
         Cookie[] cookies = request.getCookies();
-        Cookie cartCookie = removePos(cookies, Long.parseLong(prodId));
-        response.addCookie(cartCookie);
-
+        Cookie cookie = removePos(cookies, Long.parseLong(prodId), user.getId());
+        if (cookie != null) {
+            cookie.setValue("");
+            cookie.setPath("/");
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+        }
         // Pass the cart to the view
         // Return the redirect URL for the cart page
         return "redirect:/bucket";
     }
 
-    private Cookie removePos(Cookie[] cookies, Long id) {
-
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("shoppingList3")) {
-                    String cartJson = cookie.getValue();
-                    ShoppingList cart = ShoppingList.deserialize(cartJson);
-
-                    cart.removeById(id);
-                    cookie.setValue(cart.serialize());
-                    return cookie;
-                }
+    private Cookie removePos(@NotNull Cookie[] cookies, Long id, Long userId) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().split("_").length == 4
+                    && Integer.parseInt(cookie.getName().split("_")[1]) == userId
+                    && Integer.parseInt(cookie.getName().split("_")[3]) == id) {
+                return cookie;
             }
         }
         return null;
-
     }
+
 }

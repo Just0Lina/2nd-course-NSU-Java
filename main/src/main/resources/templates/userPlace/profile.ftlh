@@ -1,5 +1,4 @@
 <#import "../parts/common.ftlh" as c>
-<#import "../parts/style.ftlh" as s>
 
 <@c.page "Authorization">
 <#if message??>
@@ -14,11 +13,12 @@ ${message}
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Email:</label>
         <div class="col-sm-6">
-<!--            <input type="email" name="email" class="form-control" placeholder="${email!''}" />-->
+
 
             <input type="email" name="email"
                    class="form-control ${(emailError??)?string('is-invalid', '')}"
-                   value="${email!''}" />
+                   value="${email!''}"
+                   placeholder="${email!''}"/>
             <#if emailError??>
             <div class="invalid-feedback">
                 ${emailError}

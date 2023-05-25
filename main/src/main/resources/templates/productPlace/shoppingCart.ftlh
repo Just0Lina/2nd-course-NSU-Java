@@ -1,6 +1,5 @@
 
 <#import "../parts/common.ftlh" as c>
-<#import "../parts/style.ftlh" as s>
 
 <@c.page "Basket">
 <section class="h-100 h-custom">

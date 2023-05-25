@@ -17,12 +17,14 @@ import java.util.Map;
 
 @Controller
 public class RegistrationController {
+    private static final String USER_REGISTRATION = "userPlace/registration";
+
     @Autowired
     private UserService userService;
 
     @GetMapping("/registration")
     public String registration() {
-        return "userPlace/registration";
+        return USER_REGISTRATION;
     }
 
     @PostMapping("/registration")
@@ -34,21 +36,20 @@ public class RegistrationController {
         boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
         if (isConfirmEmpty) {
             model.addAttribute("password2Error", "Password confirmation cannot be empty");
-            return "userPlace/registration";
+            return USER_REGISTRATION;
         }
         if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)) {
             model.addAttribute("passwordError", "Passwords are different");
-            return "userPlace/registration";
+            return USER_REGISTRATION;
         }
         if (isConfirmEmpty || bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            System.out.println(errors);
             model.mergeAttributes(errors);
-            return "userPlace/registration";
+            return USER_REGISTRATION;
         }
         if (!userService.addUser(user)) {
             model.addAttribute("usernameError", "User exists!");
-            return "userPlace/registration";
+            return USER_REGISTRATION;
         }
 
         return "redirect:/login";
