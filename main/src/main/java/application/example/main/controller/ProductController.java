@@ -90,11 +90,11 @@ public class ProductController {
     @PostMapping
     public String productSave(
             @RequestParam String productName,
-            @RequestParam double price,
+            @RequestParam String price,
             @RequestParam int productCategory,
             @RequestParam("prodId") Product prod,
             @RequestParam("file") MultipartFile file) throws IOException {
-        productService.saveProduct(prod, productName, price, productCategory, file);
+        productService.saveProduct(prod, productName, Double.parseDouble(price.replaceAll("\u00a0", "")), productCategory, file);
 
         return REDIRECT_PRODUCT;
     }

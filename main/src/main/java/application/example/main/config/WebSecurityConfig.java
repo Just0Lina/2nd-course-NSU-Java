@@ -33,7 +33,8 @@ public class WebSecurityConfig {
         http.csrf()
                 .disable()
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/", "/home", "/bucket/**", "/img/**", "/user", "/activate/**", "/registration", "/static/**").permitAll()
+                        .requestMatchers("/", "/home", "/bucket/**", "/img/**",
+                                "/user", "/activate/**", "/registration", "/static/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
